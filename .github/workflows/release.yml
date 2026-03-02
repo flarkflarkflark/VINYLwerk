@@ -50,37 +50,31 @@ jobs:
           mkdir -p release-files
           VERSION=${{ github.ref_name }}
           
-          echo "=== Searching for CLI executable ==="
           if [[ "${{ matrix.os }}" == "windows-latest" ]]; then
             CLI_BIN=$(find build -name "vinylwerk_cli.exe" | head -1)
+            PKG_NAME="VINYLwerk-Windows-$VERSION.zip"
+            cp "$CLI_BIN" .
+            cp Scripts/VINYLwerk.lua .
+            cp Installation/install.ps1 .
+            zip -r "$PKG_NAME" vinylwerk_cli.exe VINYLwerk.lua install.ps1
+          elif [[ "${{ matrix.os }}" == "macos-latest" ]]; then
+            CLI_BIN=$(find build -name "vinylwerk_cli" | head -1)
+            PKG_NAME="VINYLwerk-macOS-$VERSION.zip"
+            cp "$CLI_BIN" .
+            cp Scripts/VINYLwerk.lua .
+            cp Installation/install.sh .
+            chmod +x vinylwerk_cli install.sh
+            zip -r "$PKG_NAME" vinylwerk_cli VINYLwerk.lua install.sh
           else
             CLI_BIN=$(find build -name "vinylwerk_cli" | head -1)
+            PKG_NAME="VINYLwerk-Linux-$VERSION.zip"
+            cp "$CLI_BIN" .
+            cp Scripts/VINYLwerk.lua .
+            cp Installation/install.sh .
+            chmod +x vinylwerk_cli install.sh
+            zip -r "$PKG_NAME" vinylwerk_cli VINYLwerk.lua install.sh
           fi
-          
-          if [ -n "$CLI_BIN" ]; then
-            echo "Found executable: $CLI_BIN"
-            cp "$CLI_BIN" release-files/
-            
-            # Package ReaScript alongside the executable
-            if [ -f "Scripts/VINYLwerk.lua" ]; then
-              cp Scripts/VINYLwerk.lua release-files/
-            fi
-            
-            cd release-files
-            if [[ "${{ matrix.os }}" == "windows-latest" ]]; then
-              zip -r "VINYLwerk-Windows-$VERSION.zip" vinylwerk_cli.exe VINYLwerk.lua
-            elif [[ "${{ matrix.os }}" == "macos-latest" ]]; then
-              # Make macOS binary executable inside the zip
-              chmod +x vinylwerk_cli
-              zip -r "VINYLwerk-macOS-$VERSION.zip" vinylwerk_cli VINYLwerk.lua
-            else
-              chmod +x vinylwerk_cli
-              zip -r "VINYLwerk-Linux-$VERSION.zip" vinylwerk_cli VINYLwerk.lua
-            fi
-            cd ..
-          else
-            echo "Warning: Executable not found!"
-          fi
+          mv *.zip release-files/
 
       - name: Upload Release Assets
         uses: softprops/action-gh-release@v2

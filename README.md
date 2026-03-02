@@ -1,24 +1,41 @@
-# VINYLwerk for REAPER
+# 🛠️ VINYLwerk
 
-**VINYLwerk** is a specialized REAPER integration of the Audio Restoration Suite DSP engine. It combines a powerful native C++ backend with a seamless Lua ReaScript frontend to provide professional-grade vinyl and tape restoration directly inside your REAPER workflow.
+Professional Audio Restoration for REAPER.
 
-## Architecture
+VINYLwerk combines a high-performance C++ backend with a smooth REAPER integration to provide fast, high-quality audio restoration directly in your timeline.
 
-VINYLwerk consists of two main components:
-1. **VINYLwerk CLI (Backend)**: A high-performance, headless C++ console application built with JUCE. It handles the heavy lifting: AI Denoising (ONNX), Click Removal, and Spectral Processing.
-2. **VINYLwerk ReaScript (Frontend)**: A Lua script running natively inside REAPER. It provides the user interface, manages item selection, handles audio rendering/replacement, and orchestrates the backend CLI.
+## ✨ Features
+- **Click Removal**: Advanced detection and removal of impulsive noise.
+- **AI Denoise**: Spectral subtraction and AI-powered noise reduction.
+- **Vintage Filters**: Precision Rumble and Hum filters.
+- **Non-Destructive**: Processes audio offline and imports the result as a new take.
 
-## Features
-- **Item-based Processing**: Select any audio item in REAPER and apply instant restoration.
-- **Non-Destructive**: Processes audio and adds it as a new take to the existing item.
-- **AI Denoise**: RNNoise-based AI denoiser optimized for quick offline processing.
-- **Click & Pop Removal**: Advanced crossfade and spline interpolation click removal.
-- **Native REAPER Feel**: Integrates directly into your custom actions and toolbars.
+## 🚀 Quick Install (Recommended)
 
-## Installation
+### 1. Via ReaPack
+1. Add this repository URL to ReaPack: `https://github.com/flarkflarkflark/VINYLwerk/raw/master/index.xml`
+2. Search for **VINYLwerk** and install.
+3. ReaPack will automatically download the correct backend for your Operating System.
 
-### 1. Build the Backend
-You must build the `vinylwerk_cli` executable for your operating system.
+---
+
+### 2. Manual Installer (GitHub Release)
+1. Go to [Releases](https://github.com/flarkflarkflark/VINYLwerk/releases).
+2. Download the ZIP file for your OS (Windows, macOS, or Linux).
+3. Extract the ZIP.
+4. Run the installer:
+   - **Windows**: Right-click `install.ps1` and select "Run with PowerShell".
+   - **macOS/Linux**: Run `install.sh` in a terminal.
+5. Restart REAPER.
+
+## 🎹 Usage
+1. Select an audio item in REAPER.
+2. Open the Actions list (`?`).
+3. Search for `VINYLwerk` and run it.
+4. Adjust settings and click OK.
+
+## 🛠️ Developers: Build from Source
+If you want to build the backend yourself:
 ```bash
 git clone --recursive https://github.com/flarkflarkflark/VINYLwerk.git
 cd VINYLwerk
@@ -27,15 +44,5 @@ cmake .. -DCMAKE_BUILD_TYPE=Release
 cmake --build . --config Release
 ```
 
-### 2. Install the ReaScript
-1. Open REAPER.
-2. Go to **Actions > Show action list**.
-3. Click **New action > Load ReaScript**.
-4. Select `Scripts/VINYLwerk.lua`.
-5. *Important*: Ensure the compiled `vinylwerk_cli` executable is placed in the same folder as the `.lua` script, or update the script to point to its location.
-
-## Usage
-1. Select an audio item containing vinyl clicks or broadband noise.
-2. Run the **VINYLwerk** script from your Action List (or assign it to a toolbar button).
-3. Adjust the restoration parameters in the popup dialog.
-4. Click OK. The item will be processed offline and a new, restored take will appear in its place.
+## 📄 License
+MIT License. Created by flarkAUDIO.
