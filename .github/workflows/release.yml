@@ -56,7 +56,7 @@ jobs:
             cp "$CLI_BIN" .
             cp Scripts/VINYLwerk.lua .
             cp Installation/install.ps1 .
-            zip -r "$PKG_NAME" vinylwerk_cli.exe VINYLwerk.lua install.ps1
+            7z a "$PKG_NAME" vinylwerk_cli.exe VINYLwerk.lua install.ps1
           elif [[ "${{ matrix.os }}" == "macos-latest" ]]; then
             CLI_BIN=$(find build -name "vinylwerk_cli" | head -1)
             PKG_NAME="VINYLwerk-macOS-$VERSION.zip"
