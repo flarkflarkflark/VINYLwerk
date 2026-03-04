@@ -145,13 +145,23 @@ function run_backend(mode)
         local t = targets[1]
         local source_file = reaper.GetMediaSourceFileName(reaper.GetMediaItemTake_Source(t.take), "")
         local take_offset = reaper.GetMediaItemTakeInfo_Value(t.take, "D_STARTOFFS")
-        local cmd = string.format("'%s' '%s' 'dummy' --detect-only --click-sens %.1f --click-width %.1f --start %.4f --duration %.4f --detect-file '%s'",
-            cli_exec, source_file, settings.click_sens, settings.click_width, t.offset + take_offset, t.duration, preview_file)
         if is_windows then
+            local cmd = string.format("\"%s\" \"%s\" \"dummy\" --detect-only --click-sens %.1f --click-width %.1f --start %.4f --duration %.4f --detect-file \"%s\"",
+                cli_exec, source_file, settings.click_sens, settings.click_width, t.offset + take_offset, t.duration, preview_file)
             os.execute("start /B \"\" " .. cmd .. " > NUL 2>&1")
         else
-            local dbg = io.open("/tmp/vw_cmd.txt", "w") dbg:write(cmd) dbg:close()
-            os.execute(cmd .. " > /tmp/vw_err.txt 2>&1 &")
+            local function hex_esc(s)
+                return "$'" .. s:gsub("[^%a%d/._%-]", function(c) return string.format("\\x%02x", string.byte(c)) end) .. "'"
+            end
+            local sh = io.open("/tmp/vw_run.sh", "w")
+            sh:write("#!/bin/bash\n")
+            sh:write(hex_esc(cli_exec) .. " " .. hex_esc(source_file) ..
+                " dummy --detect-only" ..
+                string.format(" --click-sens %.1f --click-width %.1f --start %.4f --duration %.4f",
+                    settings.click_sens, settings.click_width, t.offset + take_offset, t.duration) ..
+                " --detect-file " .. hex_esc(preview_file) .. "\n")
+            sh:close()
+            os.execute("/bin/bash /tmp/vw_run.sh > /dev/null 2>&1 &")
         end
         poll_start_time = reaper.time_precise()
     else
