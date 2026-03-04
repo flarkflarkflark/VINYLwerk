@@ -7,9 +7,12 @@
 
 local info = debug.getinfo(1, "S")
 local script_path = info.source:sub(2):match("(.*[\\\\/])")
-local cli_name = (reaper.GetOS():match("Win") and "vinylwerk_cli.exe" or "vinylwerk_cli")
+local is_windows = reaper.GetOS():match("Win")
+local cli_name = (is_windows and "vinylwerk_cli.exe" or "vinylwerk_cli")
 local cli_exec = script_path .. cli_name
-local preview_file = "/tmp/flark_vinyl_clicks.txt"
+local preview_file = is_windows and
+    (os.getenv("TEMP") or os.getenv("TMP") or "C:\\Temp") .. "\\flark_vinyl_clicks.txt" or
+    "/tmp/flark_vinyl_clicks.txt"
 
 local settings = { 
     click_sens = 75, click_enabled = true, click_width = 150, 
@@ -144,7 +147,11 @@ function run_backend(mode)
         local take_offset = reaper.GetMediaItemTakeInfo_Value(t.take, "D_STARTOFFS")
         local cmd = string.format("\"%s\" \"%s\" \"dummy\" --detect-only --click-sens %.1f --click-width %.1f --start %.4f --duration %.4f --detect-file \"%s\"",
             cli_exec, source_file, settings.click_sens, settings.click_width, t.offset + take_offset, t.duration, preview_file)
-        os.execute(cmd .. " > /dev/null 2>&1 &")
+        if is_windows then
+            os.execute("start /B \"\" " .. cmd .. " > NUL 2>&1")
+        else
+            os.execute(cmd .. " > /dev/null 2>&1 &")
+        end
         poll_start_time = reaper.time_precise()
     else
         reaper.Undo_BeginBlock()
