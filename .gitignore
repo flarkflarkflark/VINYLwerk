@@ -4,3 +4,18 @@ build/
 *.so
 *.dll
 *.exe
+# local/editor
+.vscode/
+
+# binaries
+Scripts/vinylwerk_cli
+
+# archives
+*.zip
+
+# test/output artifacts
+detected*.txt
+test_out.wav
+*.wav
+CLAUDE_DSP_PROMPT.txt
+test_clicks*.txt
