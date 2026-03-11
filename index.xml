@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" name="flarkAUDIO VINYLwerk" commit="master">
+<index version="1" name="flarkAUDIO VINYLwerk-reaper" commit="master">
   <category name="Restoration">
     <reascript name="VINYLwerk" vrsion="1.0.2">
-      <link rel="website">https://github.com/flarkflarkflark/VINYLwerk</link>
+      <link rel="website">https://github.com/flarkflarkflark/VINYLwerk-reaper</link>
       <version name="1.0.2" author="flarkAUDIO" time="2026-03-02T20:30:00Z">
-        <source main="main">https://github.com/flarkflarkflark/VINYLwerk/raw/master/Scripts/VINYLwerk.lua</source>
+        <source main="main">https://github.com/flarkflarkflark/VINYLwerk-reaper/raw/master/Scripts/VINYLwerk.lua</source>
       </version>
     </reascript>
   </category>

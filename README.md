@@ -1,6 +1,8 @@
-# 🛠️ VINYLwerk
+# VINYLwerk
 
-Professional Audio Restoration for REAPER.
+Professional audio restoration for REAPER.
+
+This repository contains the REAPER-specific implementation and is hosted as `VINYLwerk-reaper`.
 
 VINYLwerk combines a high-performance C++ backend with a smooth REAPER integration to provide fast, high-quality audio restoration directly in your timeline.
 
@@ -13,14 +15,14 @@ VINYLwerk combines a high-performance C++ backend with a smooth REAPER integrati
 ## 🚀 Quick Install (Recommended)
 
 ### 1. Via ReaPack
-1. Add this repository URL to ReaPack: `https://github.com/flarkflarkflark/VINYLwerk/raw/master/index.xml`
+1. Add this repository URL to ReaPack: `https://github.com/flarkflarkflark/VINYLwerk-reaper/raw/master/index.xml`
 2. Search for **VINYLwerk** and install.
 3. ReaPack will automatically download the correct backend for your Operating System.
 
 ---
 
 ### 2. Manual Installer (GitHub Release)
-1. Go to [Releases](https://github.com/flarkflarkflark/VINYLwerk/releases).
+1. Go to [Releases](https://github.com/flarkflarkflark/VINYLwerk-reaper/releases).
 2. Download the ZIP file for your OS (Windows, macOS, or Linux).
 3. Extract the ZIP.
 4. Run the installer:
@@ -37,8 +39,8 @@ VINYLwerk combines a high-performance C++ backend with a smooth REAPER integrati
 ## 🛠️ Developers: Build from Source
 If you want to build the backend yourself:
 ```bash
-git clone --recursive https://github.com/flarkflarkflark/VINYLwerk.git
-cd VINYLwerk
+git clone --recursive https://github.com/flarkflarkflark/VINYLwerk-reaper.git
+cd VINYLwerk-reaper
 mkdir build && cd build
 cmake .. -DCMAKE_BUILD_TYPE=Release
 cmake --build . --config Release
